@@ -9,13 +9,9 @@
     "lib/*"
   ],
   "exports": {
-    "core": {
-      "types": "./lib/core/index.d.ts",
-      "import": "./lib/core/index.js"
-    },
-    "node": {
-      "types": "./lib/node/index.d.ts",
-      "import": "./lib/node/index.js"
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
     }
   },
   "bin": {
@@ -49,7 +45,7 @@
     "apply-ci-vars": "yarn ratchet-cli apply-ci-env-variables-to-files github src/core/fabler-build-properties.ts",
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint --fix src/**/*.ts",
-    "generate-barrels": "barrelsby --delete -d src -l below -q -e .*\\.spec\\.ts -e example\\.ts && fix-esm-import-path src",
+    "generate-barrels": "barrelsby --delete -d src -q -e .*\\.spec\\.ts -e example\\.ts && fix-esm-import-path src",
     "test-exec": "node dist/example.js enchanter.z3"
   },
   "repository": {
