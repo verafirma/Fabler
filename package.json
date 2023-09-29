@@ -35,9 +35,10 @@
   "config": {},
   "scripts": {
     "prepare-to-publish": "yarn clean-build && yarn run apply-ci-vars && yarn remove-compiled-tests",
-    "clean-build": "yarn run clean && yarn run generate-barrels && yarn run build",
-    "build": "tsc",
+    "clean-build": "yarn run clean && yarn run generate-barrels && yarn run build ",
+    "build": "tsc && yarn run copy-static-files",
     "watch": "tsc-watch",
+    "copy-static-files": "cd src && shx cp -R static ../lib",
     "remove-compiled-tests": "rimraf ./lib/**/*.spec.d.ts && rimraf ./lib/**/*.spec.js && rimraf ./lib/**/*.spec.js.map",
     "clean": "shx rm -Rf lib bundles temp dist",
     "build-test": "yarn build && yarn test",
