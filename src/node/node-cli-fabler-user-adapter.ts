@@ -8,8 +8,9 @@ export class NodeCliFablerUserAdapter implements FablerUserAdapter {
 
   constructor(public isTandy: boolean = false) {}
 
+  // Block on being on node...
   private async rl(): Promise<any> {
-    if (!this.cacheRl) {
+    if (!!process && !this.cacheRl) {
       const rlLib: any = await import('readline');
       this.cacheRl = rlLib.createInterface({
         input: process.stdin,
@@ -20,8 +21,9 @@ export class NodeCliFablerUserAdapter implements FablerUserAdapter {
     return this.cacheRl;
   }
 
+  // Block on being on node...
   private async fs(): Promise<any> {
-    if (!this.cacheFs) {
+    if (!!process && !this.cacheFs) {
       this.cacheFs = await import('fs');
     }
     return this.cacheFs;
