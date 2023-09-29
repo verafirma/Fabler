@@ -1,23 +1,36 @@
 import { FablerUserAdapter } from '../core/fabler-user-adapter.js';
-import readline, { Interface } from 'readline';
-import fs from 'fs';
 
 export class NodeCliFablerUserAdapter implements FablerUserAdapter {
   private statusLine: string = '';
   private history: string[] = [];
-  private rl: Interface;
+  private cacheRl: any;
+  private cacheFs: any;
 
-  constructor(public isTandy: boolean = false) {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      terminal: false,
-    });
+  constructor(public isTandy: boolean = false) {}
+
+  private async rl(): Promise<any> {
+    if (!this.cacheRl) {
+      const rlLib: any = await import('readline');
+      this.cacheRl = rlLib.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        terminal: false,
+      });
+    }
+    return this.cacheRl;
+  }
+
+  private async fs(): Promise<any> {
+    if (!this.cacheFs) {
+      this.cacheFs = await import('fs');
+    }
+    return this.cacheFs;
   }
 
   private async question(prompt: string): Promise<string> {
+    const rl: any = await this.rl();
     return new Promise<string>((res, rej) => {
-      this.rl.question(prompt, (answer) => {
+      rl.question(prompt, (answer) => {
         res(answer);
       });
     });
@@ -46,6 +59,7 @@ export class NodeCliFablerUserAdapter implements FablerUserAdapter {
     process.stdout.write('Save?');
     const name: string = await this.question('');
     if (!!name) {
+      const fs: any = await this.fs();
       fs.writeFileSync(name, buffer);
       return true;
     } else {
@@ -57,6 +71,7 @@ export class NodeCliFablerUserAdapter implements FablerUserAdapter {
     process.stdout.write('Restore?');
     const name: string = await this.question('');
     if (!!name) {
+      const fs: any = await this.fs();
       const buf: Buffer = fs.readFileSync(name);
       return buf;
     } else {

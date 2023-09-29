@@ -25,7 +25,7 @@ async function runGame(): Promise<any> {
   }
 }
 
-if ((process?.argv?.length && process.argv.includes('fabler-cli')) || process.argv.includes('fabler-cli.js')) {
+if (process?.argv?.length && process.argv.map((s) => s.indexOf('fabler-cli')).find((s) => s > -1)) {
   runGame()
     .then((out) => {
       console.log('Finished', out);
@@ -35,4 +35,6 @@ if ((process?.argv?.length && process.argv.includes('fabler-cli')) || process.ar
       console.error('Error:' + err);
       process.exit(-1);
     });
+} else {
+  console.log('MISSING:' + JSON.stringify(process?.argv));
 }
