@@ -1,9 +1,8 @@
 import { Fabler } from '../core/fabler.js'; // version 2
 import { NodeCliFablerUserAdapter } from './node-cli-fabler-user-adapter.js'; // version 2
-import fs from 'fs';
-import * as process from 'process';
 
 async function runGame(): Promise<any> {
+  const fs: any = await import('fs');
   if (!process || !process.argv || process.argv.length < 3) {
     console.log('Usage: Example {story-filename} (was : ' + JSON.stringify(process?.argv) + ')');
   } else {
