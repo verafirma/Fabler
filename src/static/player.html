@@ -1,12 +1,6 @@
 <html>
 <head>
-    <title>Tester</title>
-    <!--
-    <script src="../core/fabler.js" type="module"></script>
-    <script src="../core/fabler-user-adapter.js" type="module"></script>
-    <script src="../browser/browser-fabler-user-adapter.js" type="module"></script>
-    <script src="../node/node-cli-fabler-user-adapter.js" type="module"></script>
-    -->
+    <title>Fabler Game Player</title>
 </head>
 <body>
     <div style="display: flex; flex-direction: column">
@@ -15,56 +9,36 @@
         <input style="width:100%; margin-top: 10px; background-color: #999; color: #FFF; font-weight: bold"
                type="text" id="reader" placeholder="Command here">
         <input type="file" id="srcFile" />
+        <textarea readonly style="width:100%; height: 50px; margin-top: 10px; background-color: #eee; color: #FFF; font-weight: normal" id="diagnostic"></textarea>
     </div>
 </body>
 
 <script type="module">
-    import {BrowserFablerUserAdapter} from "../browser/browser-fabler-user-adapter.js";
+    import {BrowserSpeechFablerUserAdapter} from "../browser/browser-speech-fabler-user-adapter.js"
+    //import {BrowserFablerUserAdapter} from "../browser/browser-fabler-user-adapter.js";
     import {Fabler} from "../core/fabler.js";
 
+    let game = null;
     console.log("Started");
 
     document.getElementById('srcFile').addEventListener('change', function(e) {
         let file = document.getElementById('srcFile').files[0];
 
         (async () => {
-            /*const fileContent = await file.text();
-
-            console.log('.text()', fileContent);
-
-            const fileContentStream = await file.stream();
-
-            console.log('.stream()', await streamToText(fileContentStream));
-
-             */
-
             const buffer = await file.arrayBuffer();
-
-            /*
-            console.log('.buffer()', bufferToText(buffer));
-
-            const fileSliceBlob = file.slice(0, file.length);
-            const fileSliceBlobStream = await fileSliceBlob.stream();
-
-            console.log('.slice() and .stream()', await streamToText(fileSliceBlobStream));
-
-             */
-            const opts = new BrowserFablerUserAdapter({
+            const opts = new BrowserSpeechFablerUserAdapter({
                 isTandy: false,
                 statusLineId: 'status',
                 textId: 'text',
                 inputId: 'reader'
             });
-            const game = new Fabler(buffer, opts);
+            game = new Fabler(buffer, opts);
             console.log('Started game :'+game.describeFile());
-
             let next = await game.run();
             while (!!next) {
                 next = await game.run();
             }
-
             return next;
-
         })();
     });
 
