@@ -20,7 +20,7 @@
     ],
     "noFallthroughCasesInSwitch": true,
     "preserveConstEnums": true,
-    "removeComments": true,
+    "removeComments": false,
     "useUnknownInCatchVariables": false,
     "noImplicitAny": false,
     "noUnusedLocals": false,
