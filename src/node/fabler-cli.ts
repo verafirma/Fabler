@@ -3,7 +3,7 @@ import { NodeCliFablerUserAdapter } from './node-cli-fabler-user-adapter.js'; //
 
 if (!!process) {
   async function runGame(): Promise<any> {
-    const fs = await import('fs');
+    const fs = await import(/* webpackIgnore: true*/ 'fs');
     if (!process || !process.argv || process.argv.length < 3) {
       console.log('Usage: Example {story-filename} (was : ' + JSON.stringify(process?.argv) + ')');
     } else {
