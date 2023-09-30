@@ -11,9 +11,7 @@ export class NodeCliFablerUserAdapter implements FablerUserAdapter {
   // Block on being on node...
   private async rl(): Promise<any> {
     if (!!process && !this.cacheRl) {
-      // We do this variable as a standoff to prevent things like webpack from sucking it in
-      const libname: string = 'readline';
-      const rlLib: any = await import(`${libname}`);
+      const rlLib: any = await import(/*webpackIgnore: true*/ 'readline');
       this.cacheRl = rlLib.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -25,10 +23,8 @@ export class NodeCliFablerUserAdapter implements FablerUserAdapter {
 
   // Block on being on node...
   private async fs(): Promise<any> {
-    // We do this variable as a standoff to prevent things like webpack from sucking it in
-    const libname: string = 'fs';
     if (!!process && !this.cacheFs) {
-      this.cacheFs = await import(`${libname}`);
+      this.cacheFs = await import(/*webpackIgnore: true*/ 'fs');
     }
     return this.cacheFs;
   }
