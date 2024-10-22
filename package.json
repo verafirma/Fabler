@@ -47,7 +47,7 @@
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint --fix src/**/*.ts",
     "generate-barrels": "barrelsby --delete -d src -q -e .*\\.spec\\.ts -e example\\.ts && fix-esm-import-path src",
-    "test-exec": "node dist/example.js enchanter.z3"
+    "test-exec": "yarn clean-build && node ./lib/node/fabler-cli.js ./enchanter.z3"
   },
   "repository": {
     "type": "git",
