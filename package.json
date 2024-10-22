@@ -37,7 +37,7 @@
     "prepare-to-publish": "yarn clean-build && yarn run apply-ci-vars && yarn remove-compiled-tests",
     "clean-build": "yarn run clean && yarn run generate-barrels && yarn run build ",
     "build": "tsc && yarn run copy-static-files",
-    "watch": "tsc-watch --outDir ./lib --onSuccess \"node ./lib/node/fabler-cli.js ./enchanter.z3\"",
+    "watch": "tsc-watch --outDir ./lib --onSuccess \"node ./lib/experiment/marubio.js ./game.z3\"",
     "copy-static-files": "cd src && shx cp -R static ../lib",
     "remove-compiled-tests": "rimraf ./lib/**/*.spec.d.ts && rimraf ./lib/**/*.spec.js && rimraf ./lib/**/*.spec.js.map",
     "clean": "shx rm -Rf lib bundles temp dist",
@@ -47,7 +47,7 @@
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint --fix src/**/*.ts",
     "generate-barrels": "barrelsby --delete -d src -q -e .*\\.spec\\.ts -e example\\.ts && fix-esm-import-path src",
-    "test-exec": "yarn clean-build && node ./lib/node/fabler-cli.js ./enchanter.z3"
+    "test-exec": "yarn clean-build && node ./lib/node/fabler-cli.js ./game.z3"
   },
   "repository": {
     "type": "git",
