@@ -48,6 +48,7 @@ export class NodeCliFablerUserAdapter implements FablerUserAdapter {
     if (value.length > maxlen) {
       value = value.substring(0, maxlen);
     }
+    //value +='y';
     if (value === 'XX-DUMP') {
       console.log('History : ' + JSON.stringify(this.history));
       return this.read(maxlen);
