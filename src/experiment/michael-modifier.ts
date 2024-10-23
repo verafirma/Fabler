@@ -6,17 +6,25 @@ const dataTable: { [key: string]: string } = {
   "scooby": "look"
 };
 
+// Mock function to simulate LLM lookup (replace with actual LLM API call)
+async function llmLookup(query: string): Promise<string> {
+  // Replace with actual LLM API call
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`LLM response for: ${query}`);
+    }, 1000);
+  });
+}
+
 export class MichaelModifier implements FablerInputModifier {
   public async modifyInput(userInput: string): Promise<string> {
-	  // Check input against data table
+    // Check input against data table
     if (dataTable[userInput]) {
       return dataTable[userInput];
     }
 
-    // Return the original input if no match is found
-    return userInput;
- //   let rval: string = userInput + 'x';
- //   return rval;
+    // If not found in dataTable, query the LLM
+    const llmResponse = await llmLookup(userInput);
+    return llmResponse;
   }
-
 }
