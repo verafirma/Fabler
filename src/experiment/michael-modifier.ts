@@ -4,7 +4,7 @@ import OpenAI from "openai";
 // Dummy data table for input lookup
 const dataTable: { [key: string]: string } = {
   "look around": "look",
-  "scooby": "look"
+  "look": "look"
 };
 
 // Initialize the OpenAI API client
@@ -15,8 +15,8 @@ const openai = new OpenAI({
 async function llmLookup(query: string): Promise<string> {
   try {
     const response = await openai.completions.create({
-      model: "gpt-4o", // Specify the model you want to use
-      prompt: `User input: ${query}\nResponse:`,
+      model: "gpt-3.5-turbo-instruct", // Specify the model you want to use
+      prompt: `Paraphrase this sentence into a one or two-word phrase suitable for an interactive fiction game if it contains the word look, only return the word look: ${query}`, // Updated prompt
       max_tokens: 50, // Adjust the token limit as needed
     });
     if (response.choices && response.choices[0]) {
@@ -31,6 +31,17 @@ async function llmLookup(query: string): Promise<string> {
 }
 
 export class MichaelModifier implements FablerInputModifier {
+  public async modifyInput(userInput: string): Promise<string> {
+    // Check input against data table
+    if (dataTable[userInput]) {
+      return dataTable[userInput];
+    }
+
+    // If not found in dataTable, query the LLM
+    const llmResponse = await llmLookup(userInput);
+    return llmResponse;
+  }
+}lModifier implements FablerInputModifier {
   public async modifyInput(userInput: string): Promise<string> {
     // Check input against data table
     if (dataTable[userInput]) {
